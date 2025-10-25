@@ -22,9 +22,6 @@ $bookDetails = [
     "Becoming"                  => ["author" => "Michelle Obama",      "year" => 2018, "genre" => "Biography", "summary" => "Memoir by the former First Lady."],
 ];
 
-
-// INPUT helpers
-
 function getStringParam(string $k): ?string {
     if (!isset($_GET[$k])) return null;
     $v = trim((string)$_GET[$k]);
@@ -34,9 +31,6 @@ $selectedRaw = getStringParam('book');
 $searchRaw   = getStringParam('search');
 $selected    = $selectedRaw ? rawurldecode($selectedRaw) : null;
 $searchQuery = $searchRaw ? $searchRaw : null;
-
-
-// Binary Search Tree implementation
 
 class Node {
     public string $val;
@@ -74,9 +68,6 @@ class BST {
 $bst = new BST();
 foreach (array_keys($bookDetails) as $t) $bst->insert($t);
 
-
-// Recursive renderer for sidebar categories (nested UL)
-
 function renderSidebar(array $tree, ?string $selected) {
     echo "<ul class='list-unstyled ps-1'>";
     foreach ($tree as $k => $v) {
@@ -95,15 +86,11 @@ function renderSidebar(array $tree, ?string $selected) {
     echo "</ul>";
 }
 
-
-// Helper to render large book card (center)
-
 function renderBookCard(?string $title, array $details) {
     if ($title === null) {
-        // default placeholder
         echo "<div class='placeholder h-100 d-flex flex-column justify-content-center align-items-center text-center'>";
         echo "<div style='max-width:420px;'><h3 class='mb-2'>Welcome to your Library</h3>";
-        echo "<p class='mb-0 text-muted'>Select a book from the left to view a larger preview and details, or search on the right.</p></div>";
+        echo "<p class='mb-0 text-muted'>Select a book from the left to view details, or search on the right.</p></div>";
         echo "</div>";
         return;
     }
@@ -112,7 +99,6 @@ function renderBookCard(?string $title, array $details) {
         return;
     }
     $d = $details[$title];
-    // Simplified 
     echo "<div class='book-card'>";
     echo "<div class='cover-placeholder'>".htmlspecialchars($title, ENT_QUOTES)."</div>";
     echo "<div class='book-meta'>";
@@ -121,8 +107,7 @@ function renderBookCard(?string $title, array $details) {
     echo "<p class='mb-2'><strong>Genre:</strong> " . htmlspecialchars($d['genre'], ENT_QUOTES) . "</p>";
     echo "<p class='summary text-muted'>" . htmlspecialchars($d['summary'], ENT_QUOTES) . "</p>";
     echo "<div class='mt-3'><a class='btn btn-success btn-lg' href='?book=" . rawurlencode($title) . "'>Re-open</a></div>";
-    echo "</div>"; // book-meta
-    echo "</div>"; // book-card
+    echo "</div></div>";
 }
 
 function preserveVal(string $k): string {
@@ -136,12 +121,9 @@ function preserveVal(string $k): string {
     <meta charset="utf-8">
     <title>Digital Library Organizer</title>
 
-
-   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        
         :root {
             --bg-1: #07160f;
             --panel: rgba(255,255,255,0.03);
@@ -157,16 +139,12 @@ function preserveVal(string $k): string {
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
         }
         .app-shell { max-width:1200px; margin:0 auto; }
-
-        /* Top bar */
         .topbar {
             display:flex; align-items:center; justify-content:space-between;
             padding:10px 14px; border-radius:10px; background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
             margin-bottom:12px; border:1px solid rgba(255,255,255,0.03);
         }
         .brand { font-weight:700; color:var(--accent); }
-
-        /* Sidebar */
         .sidebar {
             background: var(--panel); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.03);
             height: calc(80vh - 36px); overflow:auto;
@@ -176,8 +154,6 @@ function preserveVal(string $k): string {
         .sidebar-link { color:#dfffe6; text-decoration:none; display:block; padding:6px 8px; border-radius:8px; }
         .sidebar-link:hover { background: rgba(255,255,255,0.03); color:var(--accent-2); transform:translateX(6px); }
         .sidebar-link.active { background: var(--accent); color: white; box-shadow:0 6px 18px rgba(12,50,20,0.4); font-weight:700; }
-
-        /* Center book card */
         .center-panel {
             background: var(--panel); padding:18px; border-radius:10px; border:1px solid rgba(255,255,255,0.03);
             min-height: 80vh; display:flex; align-items:center; justify-content:center;
@@ -191,21 +167,12 @@ function preserveVal(string $k): string {
         .book-meta { flex:1; }
         .book-title { margin-top:0; color:#eaffef; }
         .summary { color: rgba(220,255,235,0.85); }
-
-        /* Right utilities */
         .right-panel {
             background: var(--panel); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.03);
             height: calc(80vh - 36px); overflow:auto;
         }
         .alpha-list { max-height: calc(80vh - 160px); overflow:auto; padding-right:6px; }
         .alpha-item { padding:8px; border-radius:8px; margin-bottom:6px; background: rgba(255,255,255,0.02); color: #effff2; }
-
-        /* Small screens adjustments */
-        @media (max-width: 991px) {
-            .sidebar { height: auto; }
-            .center-panel { min-height: auto; }
-            .right-panel { height:auto; }
-        }
     </style>
 </head>
 <body>
@@ -215,11 +182,10 @@ function preserveVal(string $k): string {
             <button id="toggleSidebar" class="btn btn-sm" style="background:var(--accent); color:white;">☰</button>
             <div>
                 <div class="brand">Digital Library</div>
-                <div class="small" style="color:var(--muted); font-size:13px;">Recursion • Hash Table • BST — new layout</div>
+                <div class="small" style="color:var(--muted); font-size:13px;">Recursion • Hash Table • BST</div>
             </div>
         </div>
         <div>
-            
             <form method="get" class="d-flex" style="gap:6px;">
                 <input name="search" class="form-control form-control-sm" placeholder="Search exact title..." style="min-width:220px;" <?php echo preserveVal('search'); ?>>
                 <button class="btn btn-success btn-sm" type="submit">Search</button>
@@ -228,7 +194,6 @@ function preserveVal(string $k): string {
     </div>
 
     <div class="row g-3">
-        <!-- LEFT: sidebar -->
         <div id="colSidebar" class="col-lg-3 d-none d-lg-block">
             <div class="sidebar">
                 <div class="mb-2"><strong>Categories</strong></div>
@@ -236,14 +201,12 @@ function preserveVal(string $k): string {
             </div>
         </div>
 
-        <!-- CENTER: large book display -->
         <div class="col-lg-6 col-12">
             <div class="center-panel">
                 <?php renderBookCard($selected, $bookDetails); ?>
             </div>
         </div>
 
-        <!-- RIGHT: search, results, alphabetical list -->
         <div class="col-lg-3 col-12">
             <div class="right-panel">
                 <div class="mb-3">
@@ -283,9 +246,8 @@ function preserveVal(string $k): string {
         </div>
     </div>
 
-    <footer class="mt-3 text-center small text-muted">Built with plain PHP — New format design</footer>
+    <footer class="mt-3 text-center small text-muted">Built with plain PHP — Digital Library Organizer</footer>
 </div>
-
 
 <script>
 document.getElementById('toggleSidebar').addEventListener('click', function() {
@@ -299,7 +261,6 @@ document.getElementById('toggleSidebar').addEventListener('click', function() {
     }
 });
 </script>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
