@@ -134,7 +134,8 @@ function preserveVal(string $k): string {
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Digital Library — New Format</title>
+    <title>Digital Library Organizer</title>
+
 
    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -218,7 +219,7 @@ function preserveVal(string $k): string {
             </div>
         </div>
         <div>
-            <!-- quick search field in topbar for convenience -->
+            
             <form method="get" class="d-flex" style="gap:6px;">
                 <input name="search" class="form-control form-control-sm" placeholder="Search exact title..." style="min-width:220px;" <?php echo preserveVal('search'); ?>>
                 <button class="btn btn-success btn-sm" type="submit">Search</button>
